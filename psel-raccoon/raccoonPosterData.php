@@ -18,20 +18,11 @@ class DataProcessing{
 
     public function orderByPrice_promocao(){
         $result = $this->getData($this->url);
-        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
-        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
-        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
-        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
         $sorted = array();
-
-        list($usec, $sec) = explode(' ', microtime());
-        $script_start = (float) $sec + (float) $usec;
-
         foreach($result['posts'] as $key => $value){
             $title = $result['posts'][$key]['title'];
             $title = explode('_' , $title);
             if (in_array("promocao", $title)){
-                //if(!($this->is_in_array($sorted, 'product_id', $result['posts'][$key]['product_id']))){
                 if(!($this->findEqualValues($sorted, 'product_id', $result['posts'][$key]['product_id']))){
                     $aux= sizeof($sorted);
                     $sorted[$aux]['product_id'] = $result['posts'][$key]['product_id'];
@@ -39,12 +30,6 @@ class DataProcessing{
                 }
             }
         } 
-
-        list($usec, $sec) = explode(' ', microtime());
-        $script_end = (float) $sec + (float) $usec;
-        $elapsed_time = round($script_end - $script_start, 5);
-        echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage(true) / 1024) / 1024), 2), 'Mb';
-
         usort($sorted, array('DataProcessing', 'cmp'));
         return $sorted;
     }
@@ -97,24 +82,6 @@ class DataProcessing{
         }
         sort($error_ids);
         return $error_ids;
-    }
-
-    private function is_in_array($array, $key, $value){
-        $within_array = false;
-        foreach( $array as $k=>$v ){
-          if( is_array($v) ){
-            $within_array = $this->is_in_array($v, $key, $value);
-            if( $within_array){
-                break;
-            }
-          } else {
-            if($v == $value && $k == $key){
-                $within_array = true;
-                break;
-            }
-          }
-        }
-        return $within_array;
     }
 
     private function cmp($a, $b){   
