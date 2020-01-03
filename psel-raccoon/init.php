@@ -11,10 +11,10 @@
                                 'response_b' => $data-> orderByPrice_like(),
                                 'response_c' => $data-> likesInMonth( 5, 2019 ),
                                 'response_d' => $data->getError());
-
+        debug($json_response['response_a']);
         $json_response = json_encode($json_response );
 
-        $url = "https://us-central1-psel-clt-ti-junho-2019.cloudfunctions.net/psel_2019_post";
+        /*$url = "https://us-central1-psel-clt-ti-junho-2019.cloudfunctions.net/psel_2019_post";
 
         $ch = curl_init($url);
 
@@ -25,7 +25,7 @@
 
         $result = curl_exec($ch);
         echo $result;
-        curl_close($ch);
+        curl_close($ch);*/
     
 
 

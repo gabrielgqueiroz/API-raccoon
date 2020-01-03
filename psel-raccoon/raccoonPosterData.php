@@ -18,18 +18,33 @@ class DataProcessing{
 
     public function orderByPrice_promocao(){
         $result = $this->getData($this->url);
+        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
+        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
+        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
+        $result['posts'] = array_merge( array_values( $result['posts'])  , array_values( $result['posts']));
         $sorted = array();
+
+        list($usec, $sec) = explode(' ', microtime());
+        $script_start = (float) $sec + (float) $usec;
+
         foreach($result['posts'] as $key => $value){
             $title = $result['posts'][$key]['title'];
             $title = explode('_' , $title);
             if (in_array("promocao", $title)){
-                if(!($this->is_in_array($sorted, 'product_id', $result['posts'][$key]['product_id']))){
+                //if(!($this->is_in_array($sorted, 'product_id', $result['posts'][$key]['product_id']))){
+                if(!($this->findEqualValues($sorted, 'product_id', $result['posts'][$key]['product_id']))){
                     $aux= sizeof($sorted);
                     $sorted[$aux]['product_id'] = $result['posts'][$key]['product_id'];
                     $sorted[$aux]['price_field'] = $result['posts'][$key]['price'];
                 }
             }
         } 
+
+        list($usec, $sec) = explode(' ', microtime());
+        $script_end = (float) $sec + (float) $usec;
+        $elapsed_time = round($script_end - $script_start, 5);
+        echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage(true) / 1024) / 1024), 2), 'Mb';
+
         usort($sorted, array('DataProcessing', 'cmp'));
         return $sorted;
     }
@@ -112,6 +127,15 @@ class DataProcessing{
             return $a['price_field'] - $b['price_field'];
         }
     }   
+
+    private function findEqualValues($array, $key, $value ){
+        foreach ($array as $k => $v) {
+            if ($array[$k][$key] == $value){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 ?>
