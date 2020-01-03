@@ -6,16 +6,15 @@
 
         $json_response = array( 'full_name'=> "Gabriel Gomes Queiroz",
                                 'email' => "ggabriel12.gg@gmail.com",
-                                'code_link'=> "https://github.com/gabrielgqueiroz/psel-raccoon/",
+                                'code_link'=> "www.github.com/gabrielgqueiroz/psel-raccoon/",
                                 'response_a' => $data->orderByPrice_promocao(),
                                 'response_b' => $data-> orderByPrice_like(),
                                 'response_c' => $data-> likesInMonth( 5, 2019 ),
                                 'response_d' => $data->getError());
-        debug($json_response);
-        $json_response = json_encode($json_response );
-        //echo $json_response;
 
-        $url = "";
+        $json_response = json_encode($json_response );
+
+        $url = "https://us-central1-psel-clt-ti-junho-2019.cloudfunctions.net/psel_2019_post";
 
         $ch = curl_init($url);
 

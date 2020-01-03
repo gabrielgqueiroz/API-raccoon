@@ -13,7 +13,6 @@ class DataProcessing{
         curl_close($ch);
         $result = json_decode($result, true);
         return $result;
-        //debug($result);
 
     } 
 
@@ -33,7 +32,6 @@ class DataProcessing{
         } 
         usort($sorted, array('DataProcessing', 'cmp'));
         return $sorted;
-        //debug($sorted); 
     }
 
     public function orderByPrice_like(){
@@ -47,8 +45,7 @@ class DataProcessing{
             }
         } 
         usort($sorted, array('DataProcessing', 'cmp'));
-        return $sorted;
-        //debug($sorted); 
+        return $sorted; 
     }
 
     public function likesInMonth($mes, $ano){
@@ -65,7 +62,6 @@ class DataProcessing{
             }
         }
         return $sum_like;
-        //echo $sum_like;
     }
 
     public function getError(){
@@ -86,7 +82,6 @@ class DataProcessing{
         }
         sort($error_ids);
         return $error_ids;
-        //debug($error_ids);
     }
 
     private function is_in_array($array, $key, $value){
